@@ -1,0 +1,31 @@
+{% extends '../dashboard.html' %}
+
+{% block dashboard_title %}
+<title>Logo Update or Add</title>
+{% endblock dashboard_title %}
+
+{% block dashboard_body %}
+<div class="row">
+  <div class="col-4">
+    <img src="{{logo.logo.url}}" alt="">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <label for="">Logo</label>
+      <input type="file" name="logo">
+      <br>
+
+      <label for="">site title</label>
+      <input type="text" name="site_title" value="{{logo.site_title}}">
+      <br>
+
+      <label for="">is active</label>
+      <input type="checkbox" name="status" {% if logo.is_active == True %} checked {% endif %}>
+      <br>
+      
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+{% endblock dashboard_body %}

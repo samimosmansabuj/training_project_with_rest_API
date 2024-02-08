@@ -1,0 +1,52 @@
+{% extends './dashboard.html' %}
+
+{% block dashboard_title %}
+<title>Banner</title>
+{% endblock dashboard_title %}
+
+{% block dashboard_body %}
+<div class="row">
+  <div class="col-4">
+    <form action="{% url 'banner_add' %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {{form}}
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+
+  <div class="col-8">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+      {% for banner in banners %}
+      <div class="col">
+        <div class="card h-100">
+          <img src="{{banner.image.url}}" class="card-img-top" alt="{{banner.image.name}}">
+          <div class="card-body">
+            <p>{{banner.title}}</p>
+            <p>{{banner.tags}}</p>
+
+            <form method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger" value="{{banner.id}}" name="banner_delete">Delete</button>
+
+              {% if banner.is_active == True %}
+              <button type="submit" value="{{banner.id}}" name="banner_status" class="btn btn-primary">Active</button>
+              {% else %}
+              <button type="submit" value="{{banner.id}}" name="banner_status"
+                class="btn btn-outline-primary">Inactive</button>
+              {% endif %}
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+{% endblock dashboard_body %}

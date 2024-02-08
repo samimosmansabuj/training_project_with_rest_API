@@ -1,0 +1,49 @@
+{% extends '../dashboard.html' %}
+
+{% block dashboard_title %}
+<title>Technology</title>
+{% endblock dashboard_title %}
+
+{% block dashboard_body %}
+<a href="{% url 'technology_add' %}">New Add</a>
+
+<br><br>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+      {% for technology in technologies %}
+      <div class="col">
+        <div class="card h-100">
+          <img src="{{technology.icon.url}}" class="card-img-top" alt="{{technology.icon.name}}">
+          <div class="card-body">
+            <p>{{technology.title}}</p>
+            <p>{{technology.tags}}</p>
+            <p>{{technology.description}}</p>
+
+            <form method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger" value="{{technology.id}}" name="technology_delete">Delete</button>
+
+              {% if technology.is_active == True %}
+              <button type="submit" value="{{technology.id}}" name="technology_status" class="btn btn-primary">Active</button>
+              {% else %}
+              <button type="submit" value="{{technology.id}}" name="technology_status"
+                class="btn btn-outline-primary">Inactive</button>
+              {% endif %}
+            </form>
+
+            <a href="{% url 'technology_update' technology.id %}">Edit</a>
+
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+{% endblock dashboard_body %}

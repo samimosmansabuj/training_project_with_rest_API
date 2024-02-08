@@ -1,0 +1,23 @@
+{% extends '../dashboard.html' %}
+
+{% block dashboard_title %}
+<title>Technology Add or Update</title>
+{% endblock dashboard_title %}
+
+{% block dashboard_body %}
+<hr>
+<h1>Add Technology</h1>
+<hr>
+<div class="row">
+  <div class="col-12">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {{form}}
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+</div>
+{% endblock dashboard_body %}
