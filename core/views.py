@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import generics
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout
 from .models import *
 from .serializers import *
 
@@ -31,6 +33,23 @@ def index(request):
     
     return render(request, 'index.html', context)
 
+
+
+def Login(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+    
+    form = AuthenticationForm()
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            login(request, form.get_user())
+            return redirect('index')
+    return render(request, 'login.html', {'form': form})
+
+def Logout(request):
+    logout(request)
+    return redirect('login')
 
 
 class SocialLinkListView(generics.ListAPIView):

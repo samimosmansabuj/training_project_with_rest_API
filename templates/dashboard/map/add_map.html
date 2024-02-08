@@ -1,0 +1,33 @@
+{% extends '../dashboard.html' %}
+
+{% block dashboard_title %}
+<title>Map Image Update or Add</title>
+{% endblock dashboard_title %}
+
+{% block dashboard_body %}
+
+<hr>
+<h1>Add or Update Map Image</h1>
+<hr>
+<div class="row">
+  <div class="col-4">
+    {% if map_object.image %}
+    <img src="{{map_object.image.url}}" alt="">
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <label for="">Map</label>
+      <input type="file" name="map_image" accept="image">
+      <br>
+
+      <label for="">is active</label>
+      <input type="checkbox" name="status" {% if map_object.is_active == True %} checked {% endif %}>
+      <br>
+      
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+{% endblock dashboard_body %}

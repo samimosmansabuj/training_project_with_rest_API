@@ -1,0 +1,50 @@
+{% extends '../dashboard.html' %}
+
+{% block dashboard_title %}
+<title>Social Link</title>
+{% endblock dashboard_title %}
+
+{% block dashboard_body %}
+<a href="{% url 'add_social_link' %}">Add New Social Link</a>
+
+<br><br>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+      {% for social_link in social_links %}
+      <div class="col">
+        <div class="card h-100">
+          {% if social_link.icon %}
+          <img src="{{social_link.icon.url}}" class="card-img-top" alt="{{social_link.icon.name}}">
+          {% endif %}
+          <div class="card-body">
+            <p>{{social_link.title}}</p>
+            <p>{{social_link.url_link}}</p>
+
+            <form method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger" value="{{social_link.id}}" name="social_link_delete">Delete</button>
+
+              {% if social_link.is_active == True %}
+              <button type="submit" value="{{social_link.id}}" name="social_link_status" class="btn btn-primary">Active</button>
+              {% else %}
+              <button type="submit" value="{{social_link.id}}" name="social_link_status"
+                class="btn btn-outline-primary">Inactive</button>
+              {% endif %}
+            </form>
+
+            <a href="{% url 'update_social_link' social_link.id %}">Edit</a>
+
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+{% endblock dashboard_body %}

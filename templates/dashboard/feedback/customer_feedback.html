@@ -1,0 +1,47 @@
+{% extends '../dashboard.html' %}
+
+{% block dashboard_title %}
+<title>Customer Feedback</title>
+{% endblock dashboard_title %}
+
+{% block dashboard_body %}
+
+<div class="row">
+
+
+  <div class="col-8">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+      {% for customer_feedback in customer_feedback %}
+      <div class="col">
+        <div class="card h-100">
+          {% if customer_feedback.image %}
+          <img src="{{customer_feedback.image.url}}" class="card-img-top" alt="{{customer_feedback.image.name}}">
+          {% endif %}
+          <div class="card-body">
+            <p>{{customer_feedback.title}}</p>
+            <p>{{customer_feedback.tags}}</p>
+
+            <form method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger" value="{{customer_feedback.id}}" name="customer_feedback_delete">Delete</button>
+
+              {% if customer_feedback.is_public == True %}
+              <button type="submit" value="{{customer_feedback.id}}" name="customer_feedback_status" class="btn btn-primary">Active</button>
+              {% else %}
+              <button type="submit" value="{{customer_feedback.id}}" name="customer_feedback_status"
+                class="btn btn-outline-primary">Inactive</button>
+              {% endif %}
+            </form>
+
+            <a href="{% url 'customer_feedback_add' customer_feedback.id %}">Edit</a>
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+{% endblock dashboard_body %}

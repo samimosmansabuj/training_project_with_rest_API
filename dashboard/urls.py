@@ -26,5 +26,21 @@ urlpatterns = [
     path('blog-add/', blog_add, name='blog_add'),
     path('blog-update/<int:id>/', blog_add, name='blog_update'),
     
+    path('feedback/', dashboard_customer_feedback, name='dashboard_customer_feedback'),
+    path('customer-feedback-update/<int:id>/', customer_feedback_add, name='customer_feedback_add'),
+    
+    
+    path('map/', dashboard_map, name='dashboard_map'),
+    path('map-add/', add_map, name='add_map'),
+    path('map-update/<int:id>/', add_map, name='update_map'),
+    
+    path('office-address/', dashboard_office_address, name='dashboard_office_address'),
+    path('office-address-add/', add_office_address, name='add_office_address'),
+    path('office-address-update/<int:id>/', add_office_address, name='update_office_address'),
+    
+    path('social-link/', dashboard_social_link, name='dashboard_social_link'),
+    path('social-link-add/', add_social_link, name='add_social_link'),
+    path('social-link-update/<int:id>/', add_social_link, name='update_social_link'),
+    
     
 ]

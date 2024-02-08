@@ -1,0 +1,47 @@
+{% extends '../dashboard.html' %}
+
+{% block dashboard_title %}
+<title>Map</title>
+{% endblock dashboard_title %}
+
+{% block dashboard_body %}
+
+<a href="{% url 'add_map' %}">Map Add</a>
+
+<br><br>
+<div class="row">
+
+
+  <div class="col-8">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+      {% for map in maps %}
+      <div class="col">
+        <div class="card h-100">
+          {% if map.image %}
+          <img src="{{map.image.url}}" class="card-img-top" alt="{{map.image.name}}">
+          {% endif %}
+          <div class="card-body">
+            <form method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger" value="{{map.id}}" name="map_delete">Delete</button>
+
+              {% if map.is_active == True %}
+              <button type="submit" value="{{map.id}}" name="map_status" class="btn btn-primary">Active</button>
+              {% else %}
+              <button type="submit" value="{{map.id}}" name="map_status"
+                class="btn btn-outline-primary">Inactive</button>
+              {% endif %}
+            </form>
+
+            <a href="{% url 'update_map' map.id %}">Edit</a>
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+{% endblock dashboard_body %}

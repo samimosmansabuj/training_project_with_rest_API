@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>{{website_config.site_title}}</title>
+{% endblock title %}
+
+{% block body_content %}
+<hr>
+<h1>Login Account</h1>
+
+<hr>
+
+<div style="margin: auto;">
+    <form style="width: 40%;margin: auto;" method="POST">
+      {% csrf_token %}
+        {{form}}
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+
+
+{% endblock body_content %}

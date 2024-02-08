@@ -2,6 +2,7 @@ from django import forms
 from core.models import *
 
 
+
 class Website_Logo_Form(forms.ModelForm):
     class Meta:
         model = Website_Logo
@@ -35,9 +36,10 @@ class Customer_Feedback_Form(forms.ModelForm):
         fields = ['image', 'title', 'tags', 'is_public']
 
 class Blog_Form(forms.ModelForm):
+    delete_previous_image = forms.BooleanField(required=False, initial=False)
     class Meta:
         model = Blog
-        fields = ['image', 'title', 'tags', 'description', 'is_active']
+        fields = ['image', 'title', 'tags', 'description', 'is_active', 'delete_previous_image']
 
 class Technology_Form(forms.ModelForm):
     class Meta:

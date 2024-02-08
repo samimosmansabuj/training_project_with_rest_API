@@ -1,0 +1,49 @@
+{% extends '../dashboard.html' %}
+
+{% block dashboard_title %}
+<title>Blog</title>
+{% endblock dashboard_title %}
+
+{% block dashboard_body %}
+<a href="{% url 'add_office_address' %}">New Add Office Address</a>
+
+<br><br>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+      {% for office_address in office_address %}
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <p>{{office_address.address}}</p>
+            <p>{{office_address.email}}</p>
+            <p>{{office_address.phone_number}}</p>
+            <p>{{office_address.fax_number}}</p>
+
+            <form method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger" value="{{office_address.id}}" name="office_address_delete">Delete</button>
+
+              {% if office_address.is_active == True %}
+              <button type="submit" value="{{office_address.id}}" name="office_address_status" class="btn btn-primary">Active</button>
+              {% else %}
+              <button type="submit" value="{{office_address.id}}" name="office_address_status"
+                class="btn btn-outline-primary">Inactive</button>
+              {% endif %}
+            </form>
+
+            <a href="{% url 'update_office_address' office_address.id %}">Edit</a>
+
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+{% endblock dashboard_body %}

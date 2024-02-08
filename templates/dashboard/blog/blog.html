@@ -17,7 +17,9 @@
       {% for blog in blogs %}
       <div class="col">
         <div class="card h-100">
+          {% if blog.image %}
           <img src="{{blog.image.url}}" class="card-img-top" alt="{{blog.image.name}}">
+          {% endif %}
           <div class="card-body">
             <p>{{blog.title}}</p>
             <p>{{blog.tags}}</p>
