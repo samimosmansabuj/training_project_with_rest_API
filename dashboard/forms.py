@@ -46,3 +46,8 @@ class Technology_Form(forms.ModelForm):
         model = Technology
         fields = ['icon', 'title', 'tags', 'description', 'is_active']
 
+class Template_Form(forms.ModelForm):
+    class Meta:
+        model = Templates
+        fields = ['image', 'title', 'price', 'preview_url', 'is_active']
+

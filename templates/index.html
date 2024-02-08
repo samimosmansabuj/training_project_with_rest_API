@@ -35,17 +35,6 @@
 
 <h1>Our Technologies</h1>
 <div class="row row-cols-1 row-cols-md-4 g-4">
-
-    <!-- <div class="col">
-        <div class="card h-100">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.</p>
-            </div>
-        </div>
-    </div> -->
     {% for technology in technologies %}
     <div class="col">
         <div class="card h-100">
@@ -102,16 +91,20 @@
 <hr>
 <h1>Templates</h1>
 <div class="row row-cols-1 row-cols-md-6 g-4">
+    {% for template in templates %}
     <div class="col">
         <div class="card h-100">
-            <img src="..." class="card-img-top" alt="...">
+            {% if template.image %}
+            <img src="{{template.image.url}}" class="card-img-top" alt="{{template.image.name}}">
+            {% endif %}
             <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.</p>
+                <h5 class="card-title">{{template.title}}</h5>
+                <p class="card-text">Price {{template.price}}</p>
+                <a href="{{template.preview_url}}" class="btn btn-primary" target="_blank">Preview</a>
             </div>
         </div>
     </div>
+    {% endfor %}
 </div>
 
 <hr>

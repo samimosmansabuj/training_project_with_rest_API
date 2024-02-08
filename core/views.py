@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from rest_framework import generics
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.response import Response
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.decorators import api_view
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
@@ -53,27 +53,49 @@ def Logout(request):
     return redirect('login')
 
 
+@api_view(['POST', 'GET', 'DELETE'])
+def social_api_view(request, id=None):
+    if id is not None:
+        social_link = Social_Link.objects.get(id=id)
+    else:
+        social_link = Social_Link.objects.all()
+    
+    if request.method == 'GET':
+        if id is not None:
+            social_link_serialize = Social_Link_Serializer(social_link)
+        else:
+            social_link_serialize = Social_Link_Serializer(social_link, many=True)
+        return Response(social_link_serialize.data)
+    
+    if request.method == 'POST':
+        data = request.data
+        data_serialize = Social_Link_Serializer(data=data)
+        if data_serialize.is_valid():
+            data_serialize.save()
+            msge = "New Added Successfully!"
+            return Response(msge)
+        else:
+            return Response(data_serialize.errors)
 
 
 
-
-class SocialLinkListView(ListCreateAPIView):
+class SocialLinkListView(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
     queryset = Social_Link.objects.all()
     serializer_class = Social_Link_Serializer
 
-class OfficeAddressListView(ListCreateAPIView):
+class OfficeAddressListView(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
     queryset = Office_Address.objects.all()
     serializer_class = Office_Address_Serializer
 
-class Customer_FeedbackListView(ListCreateAPIView):
+class Customer_FeedbackListView(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
     queryset = Customer_Feedback.objects.all()
     serializer_class = Customer_Feedback_Serializer
 
-class BlogListView(ListCreateAPIView):
+class BlogListView(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
     queryset = Blog.objects.all()
     serializer_class = Blog_Serializer
 
-class TechnologyListView(ListCreateAPIView):
+class TechnologyListView(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
     queryset = Technology.objects.all()
     serializer_class = Technology_Serializer
 

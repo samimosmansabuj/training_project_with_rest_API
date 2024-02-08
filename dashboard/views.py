@@ -393,6 +393,7 @@ def dashboard_social_link(request):
     if request.method == 'POST':
         if request.POST.get('social_link_delete'):
             social_link_delete = get_object_or_404(Social_Link, id=request.POST.get('social_link_delete'))
+            os.remove(social_link_delete.icon.path)
             social_link_delete.delete()
               
         elif request.POST.get('social_link_status'):
@@ -428,6 +429,53 @@ def add_social_link(request, id=None):
             return HttpResponse(form.errors)
     
     return render(request, 'dashboard/social_link/add_social_link.html', {'form': form})
+
+
+@login_required
+def dashboard_templates(request):
+    context = {}
+    templates = Templates.objects.all()
+    context['templates'] = templates
+    
+    if request.method == 'POST':
+        if request.POST.get('template_delete'):
+            template_delete = get_object_or_404(Templates, id=request.POST.get('template_delete'))
+            os.remove(template_delete.image.path)
+            template_delete.delete()
+              
+        elif request.POST.get('template_status'):
+            template_status = get_object_or_404(Templates, id=request.POST.get('template_status'))
+            if template_status.is_active == True:
+                template_status.is_active = False
+            elif template_status.is_active == False:
+                template_status.is_active = True
+            template_status.save()
+        
+        return redirect(request.META['HTTP_REFERER'])
+
+    return render(request, 'dashboard/template/templates.html', context)
+
+@login_required
+def add_template(request, id=None):
+    if id:
+        template = get_object_or_404(Templates, id=id)
+        form = Template_Form(instance=template)
+    else:
+        form = Template_Form()
+    
+    if request.method == 'POST':
+        if id:
+            form = Template_Form(request.POST, request.FILES, instance=template)  
+        else:
+            form = Template_Form(request.POST, request.FILES)
+            
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard_templates')
+        else:
+            return HttpResponse(form.errors)
+    
+    return render(request, 'dashboard/template/template_add.html', {'form': form})
 
 
 

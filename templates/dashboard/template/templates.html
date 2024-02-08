@@ -1,0 +1,51 @@
+{% extends '../dashboard.html' %}
+
+{% block dashboard_title %}
+<title>Templates List</title>
+{% endblock dashboard_title %}
+
+{% block dashboard_body %}
+<a href="{% url 'add_template' %}">Add New Template</a>
+
+<br><br>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+      {% for template in templates %}
+      <div class="col">
+        <div class="card h-100">
+          {% if template.image %}
+          <img src="{{template.image.url}}" class="card-img-top" alt="{{template.image.name}}">
+          {% endif %}
+          <div class="card-body">
+            <p>{{template.title}}</p>
+            <p>Price {{template.price}}</p>
+            <p>{{template.preview_url}}</p>
+
+            <form method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger" value="{{template.id}}" name="template_delete">Delete</button>
+
+              {% if template.is_active == True %}
+              <button type="submit" value="{{template.id}}" name="template_status" class="btn btn-primary">Active</button>
+              {% else %}
+              <button type="submit" value="{{template.id}}" name="template_status"
+                class="btn btn-outline-primary">Inactive</button>
+              {% endif %}
+            </form>
+
+            <a href="{% url 'update_template' template.id %}">Edit</a>
+
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+{% endblock dashboard_body %}

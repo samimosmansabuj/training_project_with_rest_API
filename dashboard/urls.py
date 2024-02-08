@@ -43,4 +43,8 @@ urlpatterns = [
     path('social-link-update/<int:id>/', add_social_link, name='update_social_link'),
     
     
+    path('templates/', dashboard_templates, name='dashboard_templates'),
+    path('tempalate-add/', add_template, name='add_template'),
+    path('template-update/<int:id>/', add_template, name='update_template'),
+    
 ]
