@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework import generics
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.decorators import api_view
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from .models import *
@@ -34,7 +36,6 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-
 def Login(request):
     if request.user.is_authenticated:
         return redirect('index')
@@ -52,23 +53,27 @@ def Logout(request):
     return redirect('login')
 
 
-class SocialLinkListView(generics.ListAPIView):
+
+
+
+
+class SocialLinkListView(ListCreateAPIView):
     queryset = Social_Link.objects.all()
     serializer_class = Social_Link_Serializer
 
-class OfficeAddressListView(generics.ListAPIView):
+class OfficeAddressListView(ListCreateAPIView):
     queryset = Office_Address.objects.all()
     serializer_class = Office_Address_Serializer
 
-class Customer_FeedbackListView(generics.ListAPIView):
+class Customer_FeedbackListView(ListCreateAPIView):
     queryset = Customer_Feedback.objects.all()
     serializer_class = Customer_Feedback_Serializer
 
-class BlogListView(generics.ListAPIView):
+class BlogListView(ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = Blog_Serializer
 
-class TechnologyListView(generics.ListAPIView):
+class TechnologyListView(ListCreateAPIView):
     queryset = Technology.objects.all()
     serializer_class = Technology_Serializer
 
